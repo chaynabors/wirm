@@ -139,10 +139,11 @@ impl<'a> Component<'a> {
 
     fn add_section(&mut self, sect: ComponentSection) {
         // add to section order list
-        if !self.sections.is_empty() && self.sections[self.num_sections - 1].1 == sect {
+        if self.num_sections > 0 && self.sections[self.num_sections - 1].1 == sect {
             self.sections[self.num_sections - 1].0 += 1;
         } else {
             self.sections.push((1, sect));
+            self.num_sections += 1;
         }
     }
 
@@ -166,6 +167,13 @@ impl<'a> Component<'a> {
         self.add_section(ComponentSection::CustomSection);
 
         id
+    }
+
+    /// Delete a custom section from the component. The visitor and encoder skip deleted entries.
+    pub fn delete_custom_section(&mut self, id: CustomSectionID) {
+        if *id < self.custom_sections.len() as u32 {
+            self.custom_sections.custom_sections[*id as usize].deleted = true;
+        }
     }
 
     /// Add an Import to this Component.

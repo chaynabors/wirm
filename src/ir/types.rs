@@ -2094,6 +2094,7 @@ impl<'a> CustomSections<'a> {
 pub struct CustomSection<'a> {
     pub name: &'a str,
     pub data: Cow<'a, [u8]>,
+    pub deleted: bool,
 }
 
 impl<'a> CustomSection<'a> {
@@ -2102,6 +2103,7 @@ impl<'a> CustomSection<'a> {
         CustomSection {
             name,
             data: Cow::Owned(data),
+            deleted: false,
         }
     }
 
@@ -2110,6 +2112,7 @@ impl<'a> CustomSection<'a> {
         CustomSection {
             name,
             data: Cow::Borrowed(data),
+            deleted: false,
         }
     }
 }
